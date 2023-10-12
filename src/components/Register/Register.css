@@ -1,0 +1,159 @@
+.register {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 70px;
+}
+
+.register__form {
+  display: flex;
+  flex-direction: column;
+  align-items: self-start;
+}
+
+@media (max-width: 500px) {
+  .register__form {
+    align-items: center;
+    width: 260px;
+  }
+}
+
+.register__hi {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 29px;
+  margin: 0 0 40px;
+}
+
+@media (max-width: 500px) {
+  .register__hi {
+    margin: 0 0 80px;
+  }
+}
+
+.register__label {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  color: #8b8b8b;
+}
+
+@media (max-width: 500px) {
+  .register__label {
+    align-self: flex-start;
+  }
+}
+
+.register__input {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16px;
+  color: #ffffff;
+  background: #2f2f2f;
+  border: none;
+  border-radius: 8px;
+  width: 396px;
+  min-height: 46px;
+  padding: 0 0 0 15px;
+  margin: 10px 0 20px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 500px) {
+  .register__input {
+    width: 260px;
+  }
+}
+
+.register__input_invalid {
+  border-bottom: 1px solid #ee3465;
+}
+
+.register__error {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  color: #ee3465;
+  margin: -10px 0 10px;
+  width: 396px;
+}
+
+.register__button {
+  border: none;
+  background-color: #4285f4;
+  width: 396px;
+  height: 45px;
+  border-radius: 3px;
+  margin-top: 71px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 17px;
+  transition: opacity 0.3s;
+  padding: 0;
+  align-self: center;
+}
+
+@media (max-width: 500px) {
+  .register__button {
+    width: 260px;
+    font-size: 12px;
+    line-height: 15px;
+    margin-top: 160px;
+  }
+}
+
+.register__button_invalid {
+  background-color: #f8f8f8;
+  color: #c2c2c2;
+  cursor: no-drop;
+}
+
+.register__button:hover {
+  transition: opacity 0.3s;
+  opacity: 0.8;
+}
+
+.register__container {
+  display: flex;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.register__question {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  color: #8b8b8b;
+}
+
+@media (max-width: 500px) {
+  .register__question {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+.register__link {
+  text-decoration: none;
+  color: #4285f4;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+@media (max-width: 500px) {
+  .register__link {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+.register__link:hover {
+  transition: opacity 0.3s;
+  opacity: 0.7;
+}
