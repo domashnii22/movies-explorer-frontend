@@ -1,0 +1,150 @@
+.techs {
+  padding: 100px calc((100% - 1280px + 140px) / 2) 85px;
+  background: #272727;
+}
+
+@media (max-width: 1160px) {
+  .techs {
+    padding: 100px calc((100% - 960px + 120px) / 2) 85px;
+  }
+}
+
+@media (max-width: 920px) {
+  .techs {
+    padding: 90px calc((100% - 768px + 100px) / 2) 75px;
+  }
+}
+
+@media (max-width: 700px) {
+  .techs {
+    padding: 90px calc((100% - 570px + 36px) / 2) 75px;
+  }
+}
+
+@media (max-width: 560px) {
+  .techs {
+    padding: 50px calc((100% - 320px + 36px) / 2) 75px;
+  }
+}
+
+.techs__title {
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 27px;
+  border-bottom: 1px solid #dadada;
+  padding-bottom: 23px;
+  margin: 0;
+  letter-spacing: -0.04em;
+}
+
+@media (max-width: 560px) {
+  .techs__title {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}
+
+.techs__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 90px;
+}
+
+@media (max-width: 920px) {
+  .techs__container {
+    margin-top: 80px;
+  }
+}
+
+@media (max-width: 560px) {
+  .techs__container {
+    margin-top: 63px;
+  }
+}
+
+.techs__count {
+  font-size: 50px;
+  font-weight: 400;
+  line-height: 58px;
+  margin: 0;
+  letter-spacing: -0.04em;
+}
+
+@media (max-width: 560px) {
+  .techs__count {
+    font-size: 30px;
+    line-height: 36px;
+  }
+}
+
+.techs__explanation {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 26px 0 0;
+  letter-spacing: -0.04em;
+  max-width: 460px;
+  text-align: center;
+}
+
+@media (max-width: 920px) {
+  .techs__explanation {
+    font-size: 12px;
+    line-height: 18px;
+    margin: 22px 0 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .techs__explanation {
+    font-size: 11px;
+    line-height: 16px;
+    margin: 24px 0 0;
+  }
+}
+
+.techs__list {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  margin-top: 100px;
+  padding: 0;
+}
+
+@media (max-width: 920px) {
+  .techs__list {
+    margin-top: 83px;
+  }
+}
+
+@media (max-width: 670px) {
+  .techs__list {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    margin-top: 50px;
+  }
+}
+
+.techs__list-item {
+  width: 90px;
+  height: 60px;
+  background: #303030;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+  letter-spacing: -0.04em;
+}
+
+@media (max-width: 920px) {
+  .techs__list-item {
+    width: 84px;
+    height: 57px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
