@@ -7,7 +7,7 @@ export default function Register() {
 
   return (
     <section className='register'>
-      <form noValidate className='register__form'>
+      <form className='register__form'>
         <h2 className='register__hi'>Добро пожаловать!</h2>
         <label htmlFor='name' className='register__label'>
           Имя

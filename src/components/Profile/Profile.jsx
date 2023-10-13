@@ -16,7 +16,7 @@ export default function Profile() {
   return (
     <section className='profile'>
       <p className='profile__hi'>Привет, Алексей!</p>
-      <form noValidate className='profile__form'>
+      <form className='profile__form'>
         <div className='profile__container'>
           <label className='profile__label' htmlFor='name'>
             Имя

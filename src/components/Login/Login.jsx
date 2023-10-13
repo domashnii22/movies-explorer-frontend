@@ -6,7 +6,7 @@ export default function Login() {
   const { errors, isValid, isInputValid, handleChange } = useFormValidation();
   return (
     <section className='login'>
-      <form noValidate className='login__form'>
+      <form className='login__form'>
         <h2 className='login__hi'>Рады видеть!</h2>
         <label htmlFor='email' className='login__label'>
           E-mail

@@ -3,7 +3,7 @@ import '../SearchForm/SearchForm.css';
 
 export default function SearchForm() {
   return (
-    <form name='search' noValidate className='movies__form'>
+    <form name='search' className='movies__form'>
       <div className='movies__form-container'>
         <input
           name='search'
