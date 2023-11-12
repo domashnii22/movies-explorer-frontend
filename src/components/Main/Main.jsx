@@ -10,7 +10,15 @@ import Register from '../Register/Register';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Techs from '../Techs/Techs';
 
-export default function Main({ name }) {
+export default function Main({
+  name,
+  handleRegister,
+  handleLogin,
+  onUpdateUser,
+  onAddMovie,
+  savedMovies,
+  onDeleteMovie,
+}) {
   return (
     <main className='content'>
       {
@@ -24,11 +32,23 @@ export default function Main({ name }) {
               <Portfolio />
             </>
           ),
-          movies: <Movies name={name} />,
-          saved: <SavedMovies name={name} />,
-          profile: <Profile />,
-          signup: <Register />,
-          signin: <Login />,
+          movies: (
+            <Movies
+              name={name}
+              onAddMovie={onAddMovie}
+              savedMovies={savedMovies}
+            />
+          ),
+          saved: (
+            <SavedMovies
+              name={name}
+              savedMovies={savedMovies}
+              onDeleteMovie={onDeleteMovie}
+            />
+          ),
+          profile: <Profile onUpdateUser={onUpdateUser} />,
+          signup: <Register handleRegister={handleRegister} />,
+          signin: <Login handleLogin={handleLogin} />,
           error: <NotFound />,
         }[name]
       }

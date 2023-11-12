@@ -1,16 +1,11 @@
 import '../Preloader/Preloader.css';
 
-export default function Preloader({ name }) {
+export default function Preloader() {
   return (
-    <button
-      type='button'
-      className={
-        name === 'movies'
-          ? 'movies__preloader'
-          : 'movies__preloader movies__preloader_inactive'
-      }
-    >
-      Ещё
-    </button>
+    <div className='preloader'>
+      <div className='preloader__container'>
+        <span className='preloader__round'></span>
+      </div>
+    </div>
   );
 }

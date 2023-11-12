@@ -2,12 +2,18 @@ import { Link } from 'react-router-dom';
 import '../Register/Register.css';
 import useFormValidation from '../../utils/useFormValidation';
 
-export default function Register() {
-  const { errors, isValid, isInputValid, handleChange } = useFormValidation();
+export default function Register({ handleRegister }) {
+  const { values, errors, isValid, isInputValid, handleChange } =
+    useFormValidation();
+
+  function onRegister(evt) {
+    evt.preventDefault();
+    handleRegister(values.name, values.password, values.email);
+  }
 
   return (
     <section className='register'>
-      <form className='register__form'>
+      <form noValidate className='register__form' onSubmit={onRegister}>
         <h2 className='register__hi'>Добро пожаловать!</h2>
         <label htmlFor='name' className='register__label'>
           Имя
@@ -15,9 +21,10 @@ export default function Register() {
         <input
           required
           name='name'
+          placeholder='Имя'
           id='name'
           type='text'
-          defaultValue={'Алексей'}
+          value={values.name ? values.name : ''}
           minLength={2}
           maxLength={30}
           className={`register__input ${
@@ -34,9 +41,10 @@ export default function Register() {
         <input
           required
           name='email'
+          placeholder='Email'
           id='email'
           type='email'
-          defaultValue={'pochta@yandex.ru'}
+          value={values.email ? values.email : ' '}
           minLength={2}
           maxLength={30}
           className={`register__input ${
@@ -53,9 +61,10 @@ export default function Register() {
         <input
           required
           name='password'
+          placeholder='Пароль'
           id='password'
           type='password'
-          defaultValue={'pochta@yandex.ru'}
+          value={values.password ? values.password : ''}
           minLength={8}
           maxLength={20}
           className={`register__input ${

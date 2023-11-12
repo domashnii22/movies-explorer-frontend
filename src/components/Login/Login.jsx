@@ -2,11 +2,18 @@ import { Link } from 'react-router-dom';
 import '../Login/Login.css';
 import useFormValidation from '../../utils/useFormValidation';
 
-export default function Login() {
-  const { errors, isValid, isInputValid, handleChange } = useFormValidation();
+export default function Login({ handleLogin }) {
+  const { values, errors, isValid, isInputValid, handleChange } =
+    useFormValidation();
+
+  function onLogin(evt) {
+    evt.preventDefault();
+    handleLogin(values.password, values.email);
+  }
+
   return (
     <section className='login'>
-      <form className='login__form'>
+      <form noValidate className='login__form' onSubmit={onLogin}>
         <h2 className='login__hi'>Рады видеть!</h2>
         <label htmlFor='email' className='login__label'>
           E-mail
@@ -14,9 +21,10 @@ export default function Login() {
         <input
           required
           name='email'
+          placeholder='Email'
           id='email'
           type='email'
-          defaultValue={'pochta@yandex.ru'}
+          value={values.email ? values.email : ''}
           minLength={2}
           maxLength={30}
           className={`login__input ${
@@ -33,9 +41,10 @@ export default function Login() {
         <input
           required
           name='password'
+          placeholder='Пароль'
           id='password'
           type='password'
-          defaultValue={'pochta@yandex.ru'}
+          value={values.password ? values.password : ''}
           minLength={8}
           maxLength={20}
           className={`login__input ${
