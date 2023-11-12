@@ -1,6 +1,9 @@
+import { useLocation } from 'react-router-dom';
 import '../InfoTooltip/InfoTooltip.css';
 
 export default function InfoTooltip({ isSuccessful, isOpen, onClose }) {
+  const pathname = useLocation();
+
   return (
     <div className={`popup ${isOpen ? 'popup_opened' : ''}`} onClick={onClose}>
       <div
@@ -20,7 +23,9 @@ export default function InfoTooltip({ isSuccessful, isOpen, onClose }) {
         />
         <h2 className='popup__title popup__title_type_result'>
           {isSuccessful
-            ? 'Вы успешно зарегистрировались!'
+            ? pathname.pathname === '/profile'
+              ? 'Данные профиля успешно изменены'
+              : 'Вы успешно зарегистрировались!'
             : 'Что-то пошло не так! Попробуйте ещё раз.'}
         </h2>
       </div>

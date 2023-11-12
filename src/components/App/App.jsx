@@ -11,6 +11,7 @@ import CurrentUserContext from '../../context/CurrentUserContext';
 import mainApi from '../../utils/MainApi';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
 import PopupWithForm from '../PopupWithForm/PopupWithForm';
+import Preloader from '../Preloader/Preloader';
 
 function App() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ function App() {
   /// Стейты карточек фильмов
   const [savedMovies, setSavedMovies] = useState([]);
   const [deleteMovieId, setDeleteMovieId] = useState('');
+  const [isPreload, setIsPreload] = useState(true);
 
   /// Проверка токена
   useEffect(() => {
@@ -31,12 +33,17 @@ function App() {
       getUserData(localStorage.jwt)
         .then(() => {
           setLoggedIn(true);
+          setIsPreload(true);
         })
-        .catch((error) =>
-          console.error(`Ошибка авторизации при повторном входе ${error}`)
-        );
+        .catch((error) => {
+          console.error(`Ошибка авторизации при повторном входе ${error}`);
+        })
+        .finally(() => {
+          setIsPreload(false);
+        });
     } else {
       setLoggedIn(false);
+      setIsPreload(false);
     }
   }, []);
 
@@ -82,8 +89,7 @@ function App() {
       .then(() => {
         setIsResultOpenPopup(true);
         setIsSuccessful(true);
-        // window.scrollTo(0, 0);
-        navigate('/sign-in');
+        handleLogin(password, email);
       })
       .catch((error) => {
         setIsResultOpenPopup(true);
@@ -97,8 +103,7 @@ function App() {
       .then((res) => {
         localStorage.setItem('jwt', res.token);
         setLoggedIn(true);
-        // window.scrollTo(0, 0);
-        navigate('/movies');
+        navigate('/movies', { replace: true });
       })
       .catch((error) => {
         setIsResultOpenPopup(true);
@@ -113,10 +118,14 @@ function App() {
       .setUserInfo(dataUser, localStorage.jwt)
       .then((res) => {
         setIsCurrentUser(res);
+        setIsResultOpenPopup(true);
+        setIsSuccessful(true);
       })
-      .catch((error) =>
-        console.error(`Ошибка при редактировании профиля ${error}`)
-      );
+      .catch((error) => {
+        setIsResultOpenPopup(true);
+        setIsSuccessful(false);
+        console.error(`Ошибка при редактировании профиля ${error}`);
+      });
   }
 
   /// Функция добавления фильма
@@ -146,102 +155,106 @@ function App() {
   }
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
-      <div className='page-container'>
-        <Routes>
-          <Route
-            path='/'
-            element={
-              <>
-                <Header loggedIn={loggedIn} />
-                <Main name='main' />
-                <Footer />
-              </>
-            }
-          ></Route>
-          <Route
-            path='/movies'
-            element={
-              <>
-                <ProtectedRoute
-                  element={ProtectedHome}
-                  name='movies'
-                  loggedIn={loggedIn}
-                  onAddMovie={handleAddMovie}
-                  savedMovies={savedMovies}
-                />
-                <Footer />
-              </>
-            }
-          ></Route>
-          <Route
-            path='/saved-movies'
-            element={
-              <>
-                <ProtectedRoute
-                  element={ProtectedHome}
-                  name='saved'
-                  loggedIn={loggedIn}
-                  savedMovies={savedMovies}
-                  onDeleteMovie={handleDeletePopupOpen}
-                />
-                <Footer />
-              </>
-            }
-          ></Route>
-          <Route
-            path='/profile'
-            element={
-              <>
-                <ProtectedRoute
-                  element={ProtectedHome}
-                  name='profile'
-                  onUpdateUser={handleUpdateUser}
-                  loggedIn={loggedIn}
-                  setLoggedIn={setLoggedIn}
-                />
-              </>
-            }
-          ></Route>
-          <Route
-            path='/sign-in'
-            element={
-              <>
-                <Header name='entrance' />
-                <Main name='signin' handleLogin={handleLogin} />
-              </>
-            }
-          ></Route>
-          <Route
-            path='/sign-up'
-            element={
-              <>
-                <Header name='entrance' />
-                <Main name='signup' handleRegister={handleRegister} />
-              </>
-            }
-          ></Route>
-          <Route
-            path='*'
-            element={
-              <>
-                <Main name='error' />
-              </>
-            }
-          ></Route>
-        </Routes>
-        <InfoTooltip
-          isSuccessful={isSuccessful}
-          isOpen={isResultOpenPopup}
-          onClose={closePopup}
-        />
-        <PopupWithForm
-          isOpen={isDeleteMoviePopup}
-          onClose={closePopup}
-          onSubmit={handleDeleteMovie}
-        />
-      </div>
-    </CurrentUserContext.Provider>
+    <div className='page-container'>
+      {isPreload ? (
+        <Preloader></Preloader>
+      ) : (
+        <CurrentUserContext.Provider value={currentUser}>
+          <Routes>
+            <Route
+              path='/'
+              element={
+                <>
+                  <Header loggedIn={loggedIn} />
+                  <Main name='main' />
+                  <Footer />
+                </>
+              }
+            ></Route>
+            <Route
+              path='/movies'
+              element={
+                <>
+                  <ProtectedRoute
+                    element={ProtectedHome}
+                    name='movies'
+                    loggedIn={loggedIn}
+                    onAddMovie={handleAddMovie}
+                    savedMovies={savedMovies}
+                  />
+                  <Footer />
+                </>
+              }
+            ></Route>
+            <Route
+              path='/saved-movies'
+              element={
+                <>
+                  <ProtectedRoute
+                    element={ProtectedHome}
+                    name='saved'
+                    loggedIn={loggedIn}
+                    savedMovies={savedMovies}
+                    onDeleteMovie={handleDeletePopupOpen}
+                  />
+                  <Footer />
+                </>
+              }
+            ></Route>
+            <Route
+              path='/profile'
+              element={
+                <>
+                  <ProtectedRoute
+                    element={ProtectedHome}
+                    name='profile'
+                    onUpdateUser={handleUpdateUser}
+                    loggedIn={loggedIn}
+                    setLoggedIn={setLoggedIn}
+                  />
+                </>
+              }
+            ></Route>
+            <Route
+              path='/sign-in'
+              element={
+                <>
+                  <Header name='entrance' />
+                  <Main name='signin' handleLogin={handleLogin} />
+                </>
+              }
+            ></Route>
+            <Route
+              path='/sign-up'
+              element={
+                <>
+                  <Header name='entrance' />
+                  <Main name='signup' handleRegister={handleRegister} />
+                </>
+              }
+            ></Route>
+            <Route
+              path='*'
+              element={
+                <>
+                  <Main name='error' />
+                </>
+              }
+            ></Route>
+          </Routes>
+          <InfoTooltip
+            isSuccessful={isSuccessful}
+            isOpen={isResultOpenPopup}
+            onClose={closePopup}
+          />
+          <PopupWithForm
+            isOpen={isDeleteMoviePopup}
+            onClose={closePopup}
+            onSubmit={handleDeleteMovie}
+          />
+        </CurrentUserContext.Provider>
+      )}
+    </div>
   );
 }
 

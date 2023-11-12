@@ -52,7 +52,7 @@ export default function Profile({ onUpdateUser, setLoggedIn }) {
   }
 
   function onSignOut() {
-    localStorage.removeItem('jwt');
+    localStorage.clear();
     setLoggedIn(false);
   }
 
