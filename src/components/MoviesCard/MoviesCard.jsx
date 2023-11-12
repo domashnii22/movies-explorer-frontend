@@ -10,8 +10,8 @@ export default function MoviesCard({
   savedMovies,
 }) {
   const pathname = useLocation();
-  const [isShowButton, setIsShowButton] = useState(false);
   const [click, setClick] = useState(false);
+  const [isShowButton, setIsShowButton] = useState(false);
 
   useEffect(() => {
     if (pathname.pathname === '/movies') {
