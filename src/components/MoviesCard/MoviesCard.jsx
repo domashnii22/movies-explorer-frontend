@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import '../MoviesCard/MoviesCard.css';
 import { useEffect, useState } from 'react';
+import { useResize } from '../../utils/useResize';
 
 export default function MoviesCard({
   movie,
@@ -12,6 +13,7 @@ export default function MoviesCard({
   const pathname = useLocation();
   const [click, setClick] = useState(false);
   const [isShowButton, setIsShowButton] = useState(false);
+  const { isScreenForBurger } = useResize();
 
   useEffect(() => {
     if (pathname.pathname === '/movies') {
@@ -36,6 +38,12 @@ export default function MoviesCard({
   function handleMouseLeave() {
     setIsShowButton(false);
   }
+
+  useEffect(() => {
+    if (!isScreenForBurger) {
+      handleMouseEnter();
+    }
+  }, [isScreenForBurger]);
 
   return (
     <article

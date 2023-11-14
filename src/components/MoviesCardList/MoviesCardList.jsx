@@ -6,7 +6,7 @@ import {
   NUMBER_CARDS_DESKTOP,
   NUMBER_CARDS_TABLE_MOBILE,
 } from '../../utils/constants';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export default function MoviesCardList({
@@ -19,30 +19,38 @@ export default function MoviesCardList({
   onDeleteMovie,
 }) {
   const [countOfMovies, setCountOfMovies] = useState(0);
-  const { isScreenForFirstPosition, isScreenForSecondPosition } = useResize();
+  const {
+    isScreenForFirstPosition,
+    isScreenForSecondPosition,
+    isScreenForThirdPosition,
+    isScreenForFourthPosition,
+  } = useResize();
   const pathname = useLocation();
 
-  useEffect(() => {
-    setNumbersOfMovies();
-    // eslint-disable-next-line
-  }, []);
-
-  function setNumbersOfMovies() {
+  const numbersOfMovies = useCallback(() => {
     if (isScreenForFirstPosition) {
       setCountOfMovies(12);
-    } else if (isScreenForSecondPosition) {
+    } else if (isScreenForSecondPosition && isScreenForThirdPosition) {
       setCountOfMovies(8);
     } else {
       setCountOfMovies(5);
     }
-  }
+  }, [
+    isScreenForFirstPosition,
+    isScreenForSecondPosition,
+    isScreenForThirdPosition,
+  ]);
+
+  useEffect(() => {
+    numbersOfMovies();
+  }, [numbersOfMovies]);
 
   function setNumbersOfPlusMovies() {
     if (isScreenForFirstPosition) {
       setCountOfMovies(countOfMovies + NUMBER_CARDS_DESKTOP);
-    } else if (isScreenForSecondPosition) {
-      setCountOfMovies(countOfMovies + NUMBER_CARDS_DESKTOP);
-    } else {
+    } else if (isScreenForSecondPosition && isScreenForThirdPosition) {
+      setCountOfMovies(countOfMovies + NUMBER_CARDS_TABLE_MOBILE);
+    } else if (isScreenForFourthPosition) {
       setCountOfMovies(countOfMovies + NUMBER_CARDS_TABLE_MOBILE);
     }
   }
@@ -95,7 +103,7 @@ export default function MoviesCardList({
       {
         {
           movies:
-            movies.length > 12 && movies.length >= countOfMovies ? (
+            movies.length > 5 && movies.length >= countOfMovies ? (
               <ButtonAdd
                 setNumbersOfPlusMovies={setNumbersOfPlusMovies}
               ></ButtonAdd>

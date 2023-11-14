@@ -51,24 +51,27 @@ export default function SearchForm({
   return (
     <form noValidate name='search' className='movies__form' onSubmit={search}>
       <div className='movies__form-container'>
-        <input
-          name='search'
-          required
-          type='text'
-          placeholder='Фильм'
-          className='movies__input'
-          minLength={2}
-          maxLength={100}
-          onChange={handleChange}
-          value={values.search || ''}
-        ></input>
-        <button type='submit' className='movies__btn'></button>
+        <div className='movies__form-box'>
+          <input
+            name='search'
+            required
+            type='text'
+            placeholder='Фильм'
+            className='movies__input'
+            minLength={2}
+            maxLength={100}
+            onChange={handleChange}
+            value={values.search || ''}
+          ></input>
+          <button type='submit' className='movies__btn'></button>
+        </div>
+        {!isError ? (
+          <span className='movies__error'>Нужно ввести ключевое слово</span>
+        ) : (
+          ''
+        )}
       </div>
-      {!isError ? (
-        <span className='movies__error'>Нужно ввести ключевое слово</span>
-      ) : (
-        ''
-      )}
+
       <FilterCheckbox
         check={check}
         isShort={isShort}

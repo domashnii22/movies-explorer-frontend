@@ -16,7 +16,9 @@ export const useResize = () => {
   return {
     width,
     isScreenForBurger: width >= 920,
-    isScreenForFirstPosition: width >= 1161,
-    isScreenForSecondPosition: width >= 708,
+    isScreenForFirstPosition: width > 1160,
+    isScreenForSecondPosition: width < 1160,
+    isScreenForThirdPosition: width > 708,
+    isScreenForFourthPosition: width < 708,
   };
 };
