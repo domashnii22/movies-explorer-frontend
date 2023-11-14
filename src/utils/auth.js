@@ -1,4 +1,5 @@
-const baseUrl = 'http://localhost:4000';
+// const baseUrl = 'http://localhost:4000';
+const baseUrl = 'https://api.domashnii-al.nomoredomainsrocks.ru';
 
 function getResponseData(res) {
   return res.ok
