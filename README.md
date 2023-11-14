@@ -4,7 +4,7 @@
 
 Адрес репозитория: https://github.com/domashnii22/movies-explorer-frontend
 
-Ссылка на пул реквест:
+Ссылка на пул реквест: https://github.com/domashnii22/movies-explorer-frontend/pull/2
 
 Ссылка на проект: https://domashnii-al.nomoredomainsrocks.ru/
 
