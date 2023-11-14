@@ -41,7 +41,9 @@ export default function MoviesCard({
 
   useEffect(() => {
     if (!isScreenForBurger) {
-      handleMouseEnter();
+      setIsShowButton(true);
+    } else {
+      setIsShowButton(false);
     }
   }, [isScreenForBurger]);
 
