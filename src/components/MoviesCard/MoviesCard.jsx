@@ -6,7 +6,6 @@ import { useResize } from '../../utils/useResize';
 export default function MoviesCard({
   movie,
   onAddMovie,
-
   onDeleteMovie,
   savedMovies,
 }) {
@@ -19,9 +18,9 @@ export default function MoviesCard({
     if (pathname.pathname === '/movies') {
       setClick(savedMovies.some((item) => movie.id === item.movieId));
     }
-  }, [movie.id, pathname.pathname, savedMovies]);
+  }, [movie.id, pathname.pathname, savedMovies, setClick]);
 
-  function onCLick() {
+  function onClick() {
     if (savedMovies.some((item) => movie.id === item.movieiD)) {
       setClick(true);
       onAddMovie(movie);
@@ -55,21 +54,19 @@ export default function MoviesCard({
     >
       {pathname.pathname === '/movies' ? (
         <>
-          {isShowButton &&
-            (click ? (
-              <button
-                type='button'
-                className={'movie__button movie__button_type_saved'}
-              ></button>
-            ) : (
-              <button
-                type='button'
-                onClick={onCLick}
-                className={'movie__button movie__button_type_save'}
-              >
-                Сохранить
-              </button>
-            ))}
+          {isShowButton && (
+            <button
+              type='button'
+              onClick={onClick}
+              className={
+                click
+                  ? 'movie__button movie__button_type_saved'
+                  : 'movie__button movie__button_type_save'
+              }
+            >
+              {click ? '' : 'Сохранить'}
+            </button>
+          )}
           <a
             target='_blank'
             href={movie.trailerLink}

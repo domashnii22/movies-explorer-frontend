@@ -12,7 +12,8 @@ export default function SavedMovies({ name, savedMovies, onDeleteMovie }) {
     if (onDeleteMovie) {
     }
     setFilteredMovies(savedMovies);
-  }, [onDeleteMovie, savedMovies]);
+    // eslint-disable-next-line
+  }, [savedMovies]);
 
   const filter = useCallback((movies, searchString, isShort) => {
     let filtered = movies.filter((movie) => {

@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import '../Register/Register.css';
 import useFormValidation from '../../utils/useFormValidation';
+import { REG_EMAIL } from '../../utils/constants';
 
-export default function Register({ handleRegister }) {
+export default function Register({ handleRegister, isSend }) {
   const { values, errors, isValid, isInputValid, handleChange } =
     useFormValidation();
 
@@ -40,6 +41,7 @@ export default function Register({ handleRegister }) {
         </label>
         <input
           required
+          pattern={REG_EMAIL}
           name='email'
           placeholder='Email'
           id='email'
@@ -80,6 +82,7 @@ export default function Register({ handleRegister }) {
           className={`register__button ${
             isValid ? '' : 'register__button_invalid'
           }`}
+          disabled={!isValid || isSend}
         >
           Зарегистрироваться
         </button>

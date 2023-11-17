@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import './App.css';
 import Main from '../Main/Main';
 import Header from '../Header/Header';
@@ -20,6 +20,7 @@ function App() {
   /// Стейты регистрации и авторизации
   const [loggedIn, setLoggedIn] = useState(false);
   const [isSuccessful, setIsSuccessful] = useState(false);
+  const [isSend, setIsSend] = useState(false);
   const [isResultOpenPopup, setIsResultOpenPopup] = useState(false);
   const [isDeleteMoviePopup, setIsDeleteMoviePopup] = useState(false);
   /// Стейты карточек фильмов
@@ -85,6 +86,7 @@ function App() {
 
   /// Функции регистрации и авторизации
   function handleRegister(name, password, email) {
+    setIsSend(true);
     registration(name, password, email)
       .then(() => {
         setIsResultOpenPopup(true);
@@ -95,10 +97,14 @@ function App() {
         setIsResultOpenPopup(true);
         setIsSuccessful(false);
         console.error(`Ошибка при регистрации ${error}`);
+      })
+      .finally(() => {
+        setIsSend(true);
       });
   }
 
   function handleLogin(password, email) {
+    setIsSend(true);
     authorization(password, email)
       .then((res) => {
         localStorage.setItem('jwt', res.token);
@@ -109,11 +115,15 @@ function App() {
         setIsResultOpenPopup(true);
         setIsSuccessful(false);
         console.error(`Ошибка при авторизации ${error}`);
+      })
+      .finally(() => {
+        setIsSend(false);
       });
   }
 
   /// Функция изменения данных пользователя
   function handleUpdateUser(dataUser) {
+    setIsSend(true);
     mainApi
       .setUserInfo(dataUser, localStorage.jwt)
       .then((res) => {
@@ -125,20 +135,13 @@ function App() {
         setIsResultOpenPopup(true);
         setIsSuccessful(false);
         console.error(`Ошибка при редактировании профиля ${error}`);
+      })
+      .finally(() => {
+        setIsSend(false);
       });
   }
 
-  /// Функция добавления фильма
-  function handleAddMovie(dataUser) {
-    mainApi
-      .addMovie(dataUser, localStorage.jwt)
-      .then((res) => {
-        setSavedMovies([...savedMovies, res]);
-      })
-      .catch((error) => console.error(`Ошибка при добавлении фильма ${error}`));
-  }
-
-  /// Функция удаления фильма
+  /// Функции удаления/добавления фильма
 
   function handleDeleteMovie(evt) {
     evt.preventDefault();
@@ -150,8 +153,34 @@ function App() {
             return savedMovie._id !== deleteMovieId;
           })
         );
+        closePopup();
       })
       .catch((error) => console.error(`Ошибка при удалении фильма ${error}`));
+  }
+
+  function handleToggleMovie(data) {
+    const movieInList = savedMovies.some((item) => data.id === item.movieId);
+    const clickInMovie = savedMovies.filter((movie) => {
+      return movie.movieId === data.id;
+    });
+    if (movieInList) {
+      mainApi.deleteMovie(clickInMovie[0]._id, localStorage.jwt).then(() => {
+        setSavedMovies(
+          savedMovies.filter((savedMovie) => {
+            return savedMovie._id !== clickInMovie[0]._id;
+          })
+        );
+      });
+    } else {
+      mainApi
+        .addMovie(data, localStorage.jwt)
+        .then((res) => {
+          setSavedMovies([...savedMovies, res]);
+        })
+        .catch((error) =>
+          console.error(`Ошибка при добавлении фильма ${error}`)
+        );
+    }
   }
 
   return (
@@ -179,7 +208,7 @@ function App() {
                     element={ProtectedHome}
                     name='movies'
                     loggedIn={loggedIn}
-                    onAddMovie={handleAddMovie}
+                    onAddMovie={handleToggleMovie}
                     savedMovies={savedMovies}
                   />
                   <Footer />
@@ -211,6 +240,7 @@ function App() {
                     onUpdateUser={handleUpdateUser}
                     loggedIn={loggedIn}
                     setLoggedIn={setLoggedIn}
+                    isSend={isSend}
                   />
                 </>
               }
@@ -218,19 +248,35 @@ function App() {
             <Route
               path='/sign-in'
               element={
-                <>
-                  <Header name='entrance' />
-                  <Main name='signin' handleLogin={handleLogin} />
-                </>
+                loggedIn ? (
+                  <Navigate to='/movies' replace />
+                ) : (
+                  <>
+                    <Header name='entrance' />
+                    <Main
+                      name='signin'
+                      handleLogin={handleLogin}
+                      isSend={isSend}
+                    />
+                  </>
+                )
               }
             ></Route>
             <Route
               path='/sign-up'
               element={
-                <>
-                  <Header name='entrance' />
-                  <Main name='signup' handleRegister={handleRegister} />
-                </>
+                loggedIn ? (
+                  <Navigate to='/movies' replace />
+                ) : (
+                  <>
+                    <Header name='entrance' />
+                    <Main
+                      name='signup'
+                      handleRegister={handleRegister}
+                      isSend={isSend}
+                    />
+                  </>
+                )
               }
             ></Route>
             <Route

@@ -5,6 +5,7 @@ export default function ProtectedHome({
   name,
   savedMovies,
   loggedIn,
+  isSend,
   ...props
 }) {
   return {
@@ -23,7 +24,12 @@ export default function ProtectedHome({
     profile: (
       <>
         <Header {...props} loggedIn={!loggedIn} />
-        <Main name={name} {...props} savedMovies={savedMovies} />
+        <Main
+          name={name}
+          {...props}
+          savedMovies={savedMovies}
+          isSend={isSend}
+        />
       </>
     ),
   }[name];

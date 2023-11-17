@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import '../Login/Login.css';
 import useFormValidation from '../../utils/useFormValidation';
+import { REG_EMAIL } from '../../utils/constants';
 
-export default function Login({ handleLogin }) {
+export default function Login({ handleLogin, isSend }) {
   const { values, errors, isValid, isInputValid, handleChange } =
     useFormValidation();
 
@@ -20,6 +21,7 @@ export default function Login({ handleLogin }) {
         </label>
         <input
           required
+          pattern={REG_EMAIL}
           name='email'
           placeholder='Email'
           id='email'
@@ -58,6 +60,7 @@ export default function Login({ handleLogin }) {
         <button
           type='submit'
           className={`login__button ${isValid ? '' : 'login__button_invalid'}`}
+          disabled={!isValid || isSend}
         >
           Войти
         </button>

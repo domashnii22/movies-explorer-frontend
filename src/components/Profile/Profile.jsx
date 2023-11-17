@@ -3,8 +3,10 @@ import '../Profile/Profile.css';
 import { useContext, useEffect, useState } from 'react';
 import useFormValidation from '../../utils/useFormValidation';
 import CurrentUserContext from '../../context/CurrentUserContext';
+import { REG_EMAIL } from '../../utils/constants';
+import Preloader from '../Preloader/Preloader';
 
-export default function Profile({ onUpdateUser, setLoggedIn }) {
+export default function Profile({ onUpdateUser, setLoggedIn, isSend }) {
   const currentUser = useContext(CurrentUserContext);
   const {
     values,
@@ -91,6 +93,7 @@ export default function Profile({ onUpdateUser, setLoggedIn }) {
           </label>
           <input
             required
+            pattern={REG_EMAIL}
             disabled={isMakeInputsActive}
             id='email'
             name='email'
@@ -114,10 +117,11 @@ export default function Profile({ onUpdateUser, setLoggedIn }) {
             className={`profile__button-save ${
               isValid ? '' : 'profile__button-save_invalid'
             }`}
+            disabled={!isValid || isSend}
           >
             Сохранить
           </button>
-        ) : (
+        ) : !isSend ? (
           <>
             <button
               type='button'
@@ -130,6 +134,8 @@ export default function Profile({ onUpdateUser, setLoggedIn }) {
               Выйти из аккаунта
             </Link>
           </>
+        ) : (
+          <Preloader />
         )}
       </form>
     </section>

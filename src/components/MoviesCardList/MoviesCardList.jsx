@@ -95,7 +95,11 @@ export default function MoviesCardList({
           : movies.map((data) => {
               return (
                 <li className='movies__list-item' key={data._id}>
-                  <MoviesCard movie={data} onDeleteMovie={onDeleteMovie} />
+                  <MoviesCard
+                    movie={data}
+                    onDeleteMovie={onDeleteMovie}
+                    // savedMovies={savedMovies}
+                  />
                 </li>
               );
             })}
