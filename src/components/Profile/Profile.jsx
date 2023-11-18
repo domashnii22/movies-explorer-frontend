@@ -60,8 +60,8 @@ export default function Profile({
 
   function onSignOut() {
     localStorage.clear();
-    setLoggedIn(false);
     setIsSend(true);
+    setLoggedIn(false);
   }
 
   return (
