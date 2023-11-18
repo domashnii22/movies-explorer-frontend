@@ -99,7 +99,7 @@ function App() {
         console.error(`Ошибка при регистрации ${error}`);
       })
       .finally(() => {
-        setIsSend(true);
+        setIsSend(false);
       });
   }
 
