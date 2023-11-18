@@ -241,6 +241,7 @@ function App() {
                     loggedIn={loggedIn}
                     setLoggedIn={setLoggedIn}
                     isSend={isSend}
+                    setIsSend={setIsSend}
                   />
                 </>
               }

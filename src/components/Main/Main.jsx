@@ -19,6 +19,7 @@ export default function Main({
   savedMovies,
   onDeleteMovie,
   isSend,
+  setIsSend,
 }) {
   return (
     <main className='content'>
@@ -47,7 +48,13 @@ export default function Main({
               onDeleteMovie={onDeleteMovie}
             />
           ),
-          profile: <Profile onUpdateUser={onUpdateUser} isSend={isSend} />,
+          profile: (
+            <Profile
+              onUpdateUser={onUpdateUser}
+              isSend={isSend}
+              setIsSend={setIsSend}
+            />
+          ),
           signup: <Register handleRegister={handleRegister} isSend={isSend} />,
           signin: <Login handleLogin={handleLogin} isSend={isSend} />,
           error: <NotFound />,

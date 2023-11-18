@@ -6,7 +6,12 @@ import CurrentUserContext from '../../context/CurrentUserContext';
 import { REG_EMAIL } from '../../utils/constants';
 import Preloader from '../Preloader/Preloader';
 
-export default function Profile({ onUpdateUser, setLoggedIn, isSend }) {
+export default function Profile({
+  onUpdateUser,
+  setLoggedIn,
+  isSend,
+  setIsSend,
+}) {
   const currentUser = useContext(CurrentUserContext);
   const {
     values,
@@ -56,6 +61,7 @@ export default function Profile({ onUpdateUser, setLoggedIn, isSend }) {
   function onSignOut() {
     localStorage.clear();
     setLoggedIn(false);
+    setIsSend(true);
   }
 
   return (
@@ -130,7 +136,12 @@ export default function Profile({ onUpdateUser, setLoggedIn, isSend }) {
             >
               Редактировать
             </button>
-            <Link to={'/'} className='profile__unlogin' onClick={onSignOut}>
+            <Link
+              to={'/'}
+              className='profile__unlogin'
+              onClick={onSignOut}
+              disabled={isSend}
+            >
               Выйти из аккаунта
             </Link>
           </>
