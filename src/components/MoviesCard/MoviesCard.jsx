@@ -14,12 +14,12 @@ export default function MoviesCard({
   const { isScreenForBurger } = useResize();
   const classButtonLike = savedMovies.some((item) => movie.id === item.movieId);
 
-  function handleMouseEnter() {
-    setIsShowButton(true);
-  }
-
   function handleMouseLeave() {
     setIsShowButton(false);
+  }
+
+  function handleMouseEnter() {
+    setIsShowButton(true);
   }
 
   useEffect(() => {
