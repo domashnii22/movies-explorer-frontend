@@ -98,7 +98,7 @@ export default function MoviesCardList({
                   <MoviesCard
                     movie={data}
                     onDeleteMovie={onDeleteMovie}
-                    // savedMovies={savedMovies}
+                    savedMovies={savedMovies}
                   />
                 </li>
               );

@@ -166,13 +166,9 @@ function App() {
     if (movieInList) {
       mainApi.deleteMovie(clickInMovie[0]._id, localStorage.jwt).then(() => {
         setSavedMovies(
-          savedMovies
-            .filter((savedMovie) => {
-              return savedMovie._id !== clickInMovie[0]._id;
-            })
-            .catch((error) =>
-              console.error(`Ошибка при удалении фильма ${error}`)
-            )
+          savedMovies.filter((savedMovie) => {
+            return savedMovie._id !== clickInMovie[0]._id;
+          })
         );
       });
     } else {

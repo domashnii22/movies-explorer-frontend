@@ -11,24 +11,8 @@ export default function MoviesCard({
 }) {
   const pathname = useLocation();
   const [isShowButton, setIsShowButton] = useState(false);
-  const [click, setClick] = useState(false);
   const { isScreenForBurger } = useResize();
-
-  useEffect(() => {
-    if (pathname.pathname === '/movies') {
-      setClick(savedMovies.some((item) => movie.id === item.movieId));
-    }
-  }, [movie.id, pathname.pathname, savedMovies, setClick]);
-
-  function onClick() {
-    if (savedMovies.some((item) => movie.id === item.movieiD)) {
-      setClick(true);
-      onAddMovie(movie);
-    } else {
-      setClick(false);
-      onAddMovie(movie);
-    }
-  }
+  const classButtonLike = savedMovies.some((item) => movie.id === item.movieId);
 
   function handleMouseEnter() {
     setIsShowButton(true);
@@ -57,14 +41,14 @@ export default function MoviesCard({
           {isShowButton && (
             <button
               type='button'
-              onClick={onClick}
+              onClick={() => onAddMovie(movie)}
               className={
-                click
+                classButtonLike
                   ? 'movie__button movie__button_type_saved'
                   : 'movie__button movie__button_type_save'
               }
             >
-              {click ? '' : 'Сохранить'}
+              {classButtonLike ? '' : 'Сохранить'}
             </button>
           )}
           <a
