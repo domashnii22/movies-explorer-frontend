@@ -28,18 +28,18 @@ export default function useFormValidation() {
     });
   }
 
-  // function reset(data = {}) {
-  //   setValues(data);
-  //   setErrors({});
-  //   setIsValid(false);
-  //   setIsInputValid({});
-  // }
+  function reset(data = {}) {
+    setValues(data);
+    setErrors({});
+    setIsValid(false);
+    setIsInputValid({});
+  }
 
-  // const setValue = useCallback((name, value) => {
-  //   setValues((oldValues) => {
-  //     return { ...oldValues, [name]: value };
-  //   });
-  // }, []);
+  const setValue = useCallback((name, value) => {
+    setValues((oldValues) => {
+      return { ...oldValues, [name]: value };
+    });
+  }, []);
 
   return {
     values,
@@ -47,7 +47,8 @@ export default function useFormValidation() {
     isValid,
     isInputValid,
     handleChange,
-    // reset,
-    // setValue,
+    reset,
+    setValue,
+    setIsValid,
   };
 }

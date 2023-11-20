@@ -77,6 +77,12 @@
   width: 396px;
 }
 
+@media (max-width: 500px) {
+  .login__error {
+    width: 260px;
+  }
+}
+
 .login__button {
   border: none;
   background-color: #4285f4;

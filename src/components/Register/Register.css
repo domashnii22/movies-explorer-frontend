@@ -78,6 +78,12 @@
   width: 396px;
 }
 
+@media (max-width: 500px) {
+  .register__error {
+    width: 260px;
+  }
+}
+
 .register__button {
   border: none;
   background-color: #4285f4;

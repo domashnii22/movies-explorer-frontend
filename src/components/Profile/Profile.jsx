@@ -1,22 +1,75 @@
 import { Link } from 'react-router-dom';
 import '../Profile/Profile.css';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import useFormValidation from '../../utils/useFormValidation';
+import CurrentUserContext from '../../context/CurrentUserContext';
+import { REG_EMAIL } from '../../utils/constants';
+import Preloader from '../Preloader/Preloader';
 
-export default function Profile() {
-  const { errors, isValid, isInputValid, handleChange } = useFormValidation();
+export default function Profile({
+  onUpdateUser,
+  setLoggedIn,
+  isSend,
+  setIsSend,
+}) {
+  const currentUser = useContext(CurrentUserContext);
+  const {
+    values,
+    errors,
+    isValid,
+    isInputValid,
+    handleChange,
+    setValue,
+    setIsValid,
+  } = useFormValidation();
   const [isMakeInputsActive, setIsMakeInputsActive] = useState(true);
   const [isChangeButton, setIsChangeButton] = useState(false);
+
+  useEffect(() => {
+    setValue('name', currentUser.name);
+    setValue('email', currentUser.email);
+  }, [currentUser, setValue]);
+
+  useEffect(() => {
+    if (currentUser.email !== values.email) {
+      setIsValid(true);
+    } else if (currentUser.name !== values.name) {
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+    }
+  }, [
+    currentUser.name,
+    values.name,
+    currentUser.email,
+    values.email,
+    setIsValid,
+  ]);
 
   const handleChangeProfile = () => {
     setIsMakeInputsActive(!isMakeInputsActive);
     setIsChangeButton(true);
   };
 
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    onUpdateUser({ name: values.name, email: values.email });
+    setIsChangeButton(false);
+    setIsMakeInputsActive(true);
+  }
+
+  function onSignOut() {
+    localStorage.clear();
+    setIsSend(true);
+    setLoggedIn(false);
+  }
+
   return (
     <section className='profile'>
-      <p className='profile__hi'>Привет, Алексей!</p>
-      <form className='profile__form'>
+      <p className='profile__hi'>
+        Привет, {currentUser.name ? currentUser.name : '#'}
+      </p>
+      <form noValidate className='profile__form' onSubmit={handleSubmit}>
         <div className='profile__container'>
           <label className='profile__label' htmlFor='name'>
             Имя
@@ -27,7 +80,8 @@ export default function Profile() {
             id='name'
             name='name'
             type='text'
-            defaultValue={'Алексей'}
+            placeholder={currentUser.name}
+            value={values.name ? values.name : ''}
             minLength={2}
             maxLength={30}
             className={`profile__input ${
@@ -45,11 +99,13 @@ export default function Profile() {
           </label>
           <input
             required
+            pattern={REG_EMAIL}
             disabled={isMakeInputsActive}
             id='email'
             name='email'
             type='email'
-            defaultValue={'pochta@yandex.ru'}
+            placeholder={currentUser.email}
+            value={values.email ? values.email : ''}
             minLength={2}
             maxLength={30}
             className={`profile__input ${
@@ -67,10 +123,11 @@ export default function Profile() {
             className={`profile__button-save ${
               isValid ? '' : 'profile__button-save_invalid'
             }`}
+            disabled={!isValid || isSend}
           >
             Сохранить
           </button>
-        ) : (
+        ) : !isSend ? (
           <>
             <button
               type='button'
@@ -79,10 +136,17 @@ export default function Profile() {
             >
               Редактировать
             </button>
-            <Link to={'/sign-in'} className='profile__unlogin'>
+            <Link
+              to={'/'}
+              className='profile__unlogin'
+              onClick={onSignOut}
+              disabled={isSend}
+            >
               Выйти из аккаунта
             </Link>
           </>
+        ) : (
+          <Preloader />
         )}
       </form>
     </section>

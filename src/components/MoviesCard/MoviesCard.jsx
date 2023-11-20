@@ -1,17 +1,34 @@
+import { useLocation } from 'react-router-dom';
 import '../MoviesCard/MoviesCard.css';
-import movie from '../../images/movie.png';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useResize } from '../../utils/useResize';
 
-export default function MoviesCard({ name, id }) {
+export default function MoviesCard({
+  movie,
+  onAddMovie,
+  onDeleteMovie,
+  savedMovies,
+}) {
+  const pathname = useLocation();
   const [isShowButton, setIsShowButton] = useState(false);
+  const { isScreenForBurger } = useResize();
+  const classButtonLike = savedMovies.some((item) => movie.id === item.movieId);
+
+  function handleMouseLeave() {
+    setIsShowButton(false);
+  }
 
   function handleMouseEnter() {
     setIsShowButton(true);
   }
 
-  function handleMouseLeave() {
-    setIsShowButton(false);
-  }
+  useEffect(() => {
+    if (!isScreenForBurger) {
+      setIsShowButton(true);
+    } else {
+      setIsShowButton(false);
+    }
+  }, [isScreenForBurger]);
 
   return (
     <article
@@ -19,42 +36,71 @@ export default function MoviesCard({ name, id }) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {
-        {
-          movies: (
-            <>
-              {isShowButton && (
-                <button
-                  type='button'
-                  className={
-                    id === 'saved'
-                      ? 'movie__button movie__button_type_saved'
-                      : 'movie__button movie__button_type_save'
-                  }
-                >
-                  {id === 'saved' ? '' : 'Сохранить'}
-                </button>
-              )}
-            </>
-          ),
-          saved: (
-            <>
-              {isShowButton && (
-                <button
-                  type='button'
-                  className='movie__button movie__button_type_delete'
-                ></button>
-              )}
-            </>
-          ),
-        }[name]
-      }
-
-      <img src={movie} alt='Постер фильма' className='movie__image'></img>
-      <div className='movie__container'>
-        <p className='movie__name'>Бег это свобода</p>
-        <p className='movie__duration'>1ч 17м</p>
-      </div>
+      {pathname.pathname === '/movies' ? (
+        <>
+          {isShowButton && (
+            <button
+              type='button'
+              onClick={() => onAddMovie(movie)}
+              className={
+                classButtonLike
+                  ? 'movie__button movie__button_type_saved'
+                  : 'movie__button movie__button_type_save'
+              }
+            >
+              {classButtonLike ? '' : 'Сохранить'}
+            </button>
+          )}
+          <a
+            target='_blank'
+            href={movie.trailerLink}
+            className='movie__link'
+            rel='noreferrer'
+          >
+            <img
+              src={`https://api.nomoreparties.co/${movie.image.url}`}
+              alt={`Постер к фильму ${movie.nameRU}`}
+              className='movie__image'
+            ></img>
+          </a>
+          <div className='movie__container'>
+            <p className='movie__name'>{movie.nameRU}</p>
+            <p className='movie__duration'>
+              {Math.floor(movie.duration / 60)}ч{' '}
+              {Math.floor(movie.duration % 60)}м
+            </p>
+          </div>
+        </>
+      ) : (
+        <>
+          {isShowButton && (
+            <button
+              type='button'
+              className='movie__button movie__button_type_delete'
+              onClick={() => onDeleteMovie(movie._id)}
+            ></button>
+          )}
+          <a
+            target='_blank'
+            href={movie.trailer}
+            className='movie__link'
+            rel='noreferrer'
+          >
+            <img
+              src={movie.image}
+              alt={`Постер к фильму ${movie.nameRU}`}
+              className='movie__image'
+            ></img>
+          </a>
+          <div className='movie__container'>
+            <p className='movie__name'>{movie.nameRU}</p>
+            <p className='movie__duration'>
+              {Math.floor(movie.duration / 60)}ч{' '}
+              {Math.floor(movie.duration % 60)}м
+            </p>
+          </div>
+        </>
+      )}
     </article>
   );
 }
